@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Usuario</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .publicacion {
+            background-color: #222;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 20px;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 14px;
+            color: #bbb;
+            margin-bottom: 0;
+        }
+        /* Estilo para los enlaces */
+        a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #ffd700;
+        }
+        
+    </style>
+</head>
+<body>
+    <br>
+    <turbo-frame id="user-profile">
+        <div class="container">
+            <h1>
+                <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+                <%= @user.username + " - "+@user.faculty.name + " "+@user.promotion%>
+                <% if @user.verified %>
+                    <span class="badge bg-success">Verificado</span>
+                <% end %>
+                <% if @user.admin %>
+                    <span class="badge bg-primary">Administrador</span>
+                <% end %>
+            </h1>
+            <% if @user.id== session[:user_id] || (Current.user && Current.user.admin?) %>
+                <%= link_to 'Eliminar mi cuenta', eliminar_usuario_path(@user.id), data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' }, class: 'btn btn-danger' %>
+            <% end %>
+            <br>
+            <h2>Publicaciones de <%= @user.username %></h2>
+            <% if @publicaciones.any? %>
+                <% @publicaciones.each do |publicacion| %>
+                    <div class="publicacion">
+                        <% if publicacion.imagen.present? %>
+                            <%= link_to publicacion_path(publicacion.id), class: "img-link", data: { turbo_frame: '_top' } do %>
+                                <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
+                            <% end %>
+                        <% end %>
+                        <h2><%= link_to publicacion.titulo, publicacion_path(publicacion.id), data: { turbo_frame: '_top' } %></h2>
+                        <p><%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                    </div>
+                <% end %>
+            <% else %>
+                <p>No hay publicaciones para este usuario.</p>
+            <% end %>
+        </div>
+    </turbo-frame>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Publicación</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h4 class="card-title text-center mb-0">Editar Publicación</h4>
+          </div>
+          <div class="card-body">
+            <%= form_with model: @publicacion, html: { class: "form" } do |form| %>
+              <% @publicacion.errors.full_messages.each do |error| %>
+                <div class="alert alert-danger" role="alert">
+                  <%= error %>
+                </div>
+              <% end %>
+              
+              <div class="form-group">
+                <%= form.label :titulo, class: "font-weight-bold" %>
+                <%= form.text_field :titulo, class: "form-control", placeholder: "Ingrese el título de la publicación" %>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :descripcion, class: "font-weight-bold" %>
+                <%= form.text_area :descripcion, class: "form-control", placeholder: "Ingrese la descripción de la publicación" %>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :category_id, "Categoría", class: "font-weight-bold" %>
+                <%= form.collection_select :category_id, Category.all.order(name: :asc), :id, :name, { prompt: "Selecciona una categoría" }, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= form.label :imagen, "Adjuntar imagen", class: "font-weight-bold" %>
+                <%= form.file_field :imagen, class: "form-control-file" %>
+              </div>
+
+              <%= form.label :mostrar_nombre, "No Mostrar Nombre", class: "font-weight-bold" %>
+              <%= form.check_box :mostrar_nombre, class: "form-check-input" %>
+
+              <% if Current.user && Current.user.admin? %>
+                <div class="form-group">
+                  <%= form.label :fijada, "Fijar publicación por facultad", class: "font-weight-bold" %>
+                  <%= form.check_box :fijada, class: "form-check-input" %>
+                </div>
+                <div class="form-group">
+                  <%= form.label :fijada, "Fijar publicación en index", class: "font-weight-bold" %>
+                  <%= form.check_box :fijadaindex, class: "form-check-input" %>
+                </div>
+              <% end %>
+
+              <div class="form-group">
+                <%= form.submit "Guardar cambios", class: "btn btn-primary btn-block" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (opcional, si lo necesitas) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
