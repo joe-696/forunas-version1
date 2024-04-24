@@ -30,24 +30,30 @@
 
             <div class="form-group">
               <%= form.label :imagen, "Adjuntar imagen", class: "font-weight-bold" %>
-              <%= form.file_field :imagen, class: "form-control-file" %>
+              <%= form.file_field :imagen, class: "form-control-file", id: "imagen-input", onchange: "previewFile('imagen')" %>
+              <img src="#" alt="Vista previa de imagen" id="imagen-preview" style="display: none; max-width: 100%; height: auto;">
+            </div>
+
+            <div class="form-group">
+              <%= form.label :video, "Adjuntar video", class: "font-weight-bold" %>
+              <%= form.file_field :video, class: "form-control-file", id: "video-input", onchange: "previewFile('video')" %>
+              <video src="#" alt="Vista previa de video" id="video-preview" style="display: none; max-width: 100%;" controls></video>
             </div>
             
             <%= form.label :mostrar_nombre, "No Mostrar Nombre", class: "font-weight-bold" %>
             <%= form.check_box :mostrar_nombre, class: "form-check-input" %>
 
-            
             <% if (Current.user && Current.user.admin?) %>
               <div class="form-group">
-              <%= form.label :fijada, "Fijar publicación en facultad", class: "font-weight-bold" %>
-              <%= form.check_box :fijada, class: "form-check-input" %>
+                <%= form.label :fijada, "Fijar publicación en facultad", class: "font-weight-bold" %>
+                <%= form.check_box :fijada, class: "form-check-input" %>
               </div>
 
               <div class="form-group">
-              <%= form.label :fijadaindex, "Fijar publicación en index ", class: "font-weight-bold" %>
-              <%= form.check_box :fijada, class: "form-check-input" %>
+                <%= form.label :fijadaindex, "Fijar publicación en index ", class: "font-weight-bold" %>
+                <%= form.check_box :fijadaindex, class: "form-check-input" %>
               </div>
-            <%end%>
+            <% end %>
 
             <div class="form-group mb-0">
               <%= form.submit "Publicar", class: "btn btn-primary btn-block" %>
@@ -58,3 +64,22 @@
     </div>
   </div>
 </div>
+
+<script>
+  function previewFile(type) {
+    const fileInput = document.querySelector(`#${type}-input`);
+    const preview = document.querySelector(`#${type}-preview`);
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+      preview.src = reader.result;
+      preview.style.display = "block";
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+</script>

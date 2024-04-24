@@ -28,6 +28,8 @@
             <div class="text-center mb-4">
               <% if @publicacion.imagen.attached? %>
                 <%= image_tag @publicacion.imagen, width: 400, class: "img-fluid rounded" %>
+              <% elsif @publicacion.video.attached? %>
+                <%= video_tag @publicacion.video, controls: true, class: "img-fluid rounded" %>
               <% end %>
             </div>
             <p class="lead text-center"><%= auto_link(simple_format(@publicacion.descripcion)) %></p>

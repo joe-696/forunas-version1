@@ -1,5 +1,6 @@
 class Publicacion < ApplicationRecord
     has_one_attached :imagen
+    has_one_attached :video
 
     validates :titulo, presence: true 
     validates :descripcion, presence: true 
