@@ -212,8 +212,11 @@
                     <div class="placeholder-image"></div>
                   <% end %>
                   <% if publicacion.video.attached? %>
-                    <%= video_tag publicacion.video, controls: true, class: "video-thumbnail" %>
+                    <div class="embed-responsive embed-responsive-16by9">
+                      <%= video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+                    </div>
                   <% end %>
+
                   <h2><%= publicacion.titulo %></h2>
                   <p class="comentarios">
                     <strong>Comentarios: </strong>
