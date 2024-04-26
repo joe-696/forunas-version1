@@ -43,8 +43,15 @@
                 <%= form.file_field :imagen, class: "form-control-file" %>
               </div>
 
-              <%= form.label :mostrar_nombre, "No Mostrar Nombre", class: "font-weight-bold" %>
-              <%= form.check_box :mostrar_nombre, class: "form-check-input" %>
+              <div class="form-group">
+                <%= form.label :video, "Adjuntar video", class: "font-weight-bold" %>
+                <%= form.file_field :video, class: "form-control-file" %>
+              </div>
+
+              <div class="form-check">
+                <%= form.label :mostrar_nombre, "No Mostrar Nombre", class: "form-check-label font-weight-bold" %>
+                <%= form.check_box :mostrar_nombre, class: "form-check-input" %>
+              </div>
 
               <% if Current.user && Current.user.admin? %>
                 <div class="form-group">

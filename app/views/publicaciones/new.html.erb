@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header bg-primary text-white">
-          <h4 class="card-title text-center mb-0">Nueva Publicación</h4>
+          <h4 class="card-title text-center mb-0">📝 Nueva Publicación</h4>
         </div>
         <div class="card-body">
           <%= form_with model: @publicacion, url: publicaciones_path, html: { class: "form" } do |form| %>
@@ -14,12 +14,12 @@
             <% end %>
             
             <div class="form-group">
-              <%= form.label :titulo, class: "font-weight-bold" %>
+              <%= form.label :titulo, "Título", class: "font-weight-bold" %>
               <%= form.text_field :titulo, class: "form-control", placeholder: "Ingrese el título de la publicación" %>
             </div>
 
             <div class="form-group">
-              <%= form.label :descripcion, class: "font-weight-bold" %>
+              <%= form.label :descripcion, "Descripción", class: "font-weight-bold" %>
               <%= form.text_area :descripcion, class: "form-control", placeholder: "Ingrese la descripción de la publicación" %>
             </div>
 
@@ -30,28 +30,36 @@
 
             <div class="form-group">
               <%= form.label :imagen, "Adjuntar imagen", class: "font-weight-bold" %>
-              <%= form.file_field :imagen, class: "form-control-file", id: "imagen-input", onchange: "previewFile('imagen')" %>
-              <img src="#" alt="Vista previa de imagen" id="imagen-preview" style="display: none; max-width: 100%; height: auto;">
+              <div class="custom-file">
+                <%= form.file_field :imagen, class: "custom-file-input", id: "imagen-input", onchange: "previewFile('imagen'); disableFileInput('video')" %>
+                <label class="custom-file-label" for="imagen-input">Seleccionar imagen...</label>
+              </div>
+              <img src="#" alt="Vista previa de imagen" id="imagen-preview" style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
             </div>
 
             <div class="form-group">
               <%= form.label :video, "Adjuntar video", class: "font-weight-bold" %>
-              <%= form.file_field :video, class: "form-control-file", id: "video-input", onchange: "previewFile('video')" %>
+              <div class="custom-file">
+                <%= form.file_field :video, class: "custom-file-input", id: "video-input", onchange: "previewFile('video'); disableFileInput('imagen')" %>
+                <label class="custom-file-label" for="video-input">Seleccionar video...</label>
+              </div>
               <video src="#" alt="Vista previa de video" id="video-preview" style="display: none; max-width: 100%;" controls></video>
             </div>
             
-            <%= form.label :mostrar_nombre, "No Mostrar Nombre", class: "font-weight-bold" %>
-            <%= form.check_box :mostrar_nombre, class: "form-check-input" %>
+            <div class="form-check">
+              <%= form.check_box :mostrar_nombre, class: "form-check-input" %>
+              <%= form.label :mostrar_nombre, "No Mostrar Nombre", class: "form-check-label font-weight-bold" %>
+            </div>
 
             <% if (Current.user && Current.user.admin?) %>
-              <div class="form-group">
-                <%= form.label :fijada, "Fijar publicación en facultad", class: "font-weight-bold" %>
+              <div class="form-check">
                 <%= form.check_box :fijada, class: "form-check-input" %>
+                <%= form.label :fijada, "Fijar publicación en facultad", class: "form-check-label font-weight-bold" %>
               </div>
 
-              <div class="form-group">
-                <%= form.label :fijadaindex, "Fijar publicación en index ", class: "font-weight-bold" %>
+              <div class="form-check">
                 <%= form.check_box :fijadaindex, class: "form-check-input" %>
+                <%= form.label :fijadaindex, "Fijar publicación en index", class: "form-check-label font-weight-bold" %>
               </div>
             <% end %>
 
@@ -69,6 +77,7 @@
   function previewFile(type) {
     const fileInput = document.querySelector(`#${type}-input`);
     const preview = document.querySelector(`#${type}-preview`);
+    const customFileLabel = document.querySelector(`label[for="${type}-input"]`);
 
     const file = fileInput.files[0];
     const reader = new FileReader();
@@ -80,6 +89,15 @@
 
     if (file) {
       reader.readAsDataURL(file);
+      customFileLabel.textContent = file.name; // Mostrar el nombre del archivo seleccionado en el label personalizado
     }
+  }
+
+  function disableFileInput(type) {
+    const fileInput = document.querySelector(`#${type}-input`);
+    fileInput.value = ''; // Limpiar la selección actual del archivo
+    fileInput.disabled = true;
+    const customFileLabel = document.querySelector(`label[for="${type}-input"]`);
+    customFileLabel.textContent = 'Ya ha seleccionado otro tipo de archivo';
   }
 </script>
