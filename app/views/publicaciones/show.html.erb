@@ -82,6 +82,28 @@
                   <% end %>
                 <% end %>
               <% end%>
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="btn-compartir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Compartir
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btn-compartir">
+                  <!-- Opciones de compartir con iconos y colores -->
+                  <button id="btn-compartir-twitter" class="dropdown-item">
+                    <i class="fab fa-twitter text-info"></i> Twitter
+                  </button>
+                  <button id="btn-compartir-whatsapp" class="dropdown-item">
+                    <i class="fab fa-whatsapp text-success"></i>  WhatsApp
+                  </button>
+                  <button id="btn-compartir-facebook" class="dropdown-item">
+                    <i class="fab fa-facebook text-primary"></i> Facebook
+                  </button>
+                </div>
+              </div>
+
+
+
+
               
               
             </div>
@@ -159,6 +181,41 @@
         $(this).toggleClass('collapsed');
       });
     });
+
+   
+    document.addEventListener('DOMContentLoaded', function() {
+      var btnCompartirTwitter = document.getElementById('btn-compartir-twitter');
+      var btnCompartirWhatsApp = document.getElementById('btn-compartir-whatsapp');
+      var btnCompartirFacebook = document.getElementById('btn-compartir-facebook');
+      var tituloPublicacion = '<%= @publicacion.titulo %>'; // Obteniendo el título de la publicación desde Rails
+
+      btnCompartirTwitter.addEventListener('click', function() {
+        var url = window.location.href;
+        var mensaje = '¡Mira esta publicación en mi red social!';
+        var compartirEnlace = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(mensaje);
+        
+        window.open(compartirEnlace, '_blank');
+      });
+
+      btnCompartirWhatsApp.addEventListener('click', function() {
+        var url = window.location.href;
+        var mensaje = '¡Mira esta publicación: ' + tituloPublicacion + '!';
+        var compartirEnlace = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(mensaje + '\n' + url);
+        
+        window.open(compartirEnlace, '_blank');
+      });
+
+      btnCompartirFacebook.addEventListener('click', function() {
+        var url = window.location.href;
+        var mensaje = '¡Mira esta publicación: ' + tituloPublicacion + '!';
+        var compartirEnlace = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(mensaje);
+    
+        window.open(compartirEnlace, '_blank');
+      });
+      
+    });
+
+
   </script>
 </body>
 </html>
