@@ -35,7 +35,7 @@
       color: #ffd700; /* Cambio de color del título */
     }
     .usuario {
-      color: #bbb; /* Cambio de color del usuario */
+      color: withe; /* Cambio de color del usuario */
     }
     .card-link {
       text-decoration: none;
@@ -52,6 +52,7 @@
   </style>
 </head>
 <body>
+<br>
 
 <div class="container">
   <h2 class="text-center mb-4">Publicaciones Top 5 en tendencia semanal</h2>
@@ -63,15 +64,20 @@
           <%= link_to publicacion_path(publicacion.id), class: "card-link", data: { turbo_frame: '_top' } do %>
             <% if publicacion.imagen.attached? %>
               <%= image_tag publicacion.imagen, class: "card-img-top", alt: "Imagen de la publicación" %>
-            <% else %>
+            <% elsif publicacion.video.attached? %>
+              <div class="embed-responsive embed-responsive-16by9">
+                <%=video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+              </div>
+            <% elsif %>
               <div class="placeholder-image card-img-top"></div>
             <% end %>
+            
             <div class="card-body">
               <h5 class="card-title"><%= publicacion.titulo %></h5>
               <!-- Contenedor del nombre de usuario -->
               <div class="usuario mb-3">
                 <i class="bi bi-person me-2" style="font-size: 20px;"></i>
-                <strong><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' } %></strong>
+                <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' } %></strong>
               </div>
               <!-- Otros detalles de la publicación -->
               <%#<p class="card-text"><strong>Comentarios:</strong> <%= publicacion.comments.count %>

@@ -14,7 +14,8 @@ class User < ApplicationRecord
               message: "solo se permiten letras, números y guiones bajos"
             }
   validates :password, presence: true, length: { minimum: 6 }
-  validates :promotion, format: { with: /\A\d{4}-[1-2]\z/, message: "El formato de la promoción debe ser YYYY-S" }, allow_blank: true
+  validates :promotion, format: { with: /\A(19[8-9]\d|20[012]\d|2030)\z/, message: "El formato de la promoción debe ser un año entre 1980 y 2030" }, allow_blank: true
+
 
 
   belongs_to :faculty, optional: false
