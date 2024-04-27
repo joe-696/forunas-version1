@@ -31,7 +31,7 @@ class UsersController < ApplicationController
       if @user.nil?
         redirect_to root_path, alert: 'Usuario no encontrado'
       else
-        @publicaciones = @user.publicacions
+        @publicaciones = @user.publicacions.order(created_at: :desc)
       end
     end
   end
