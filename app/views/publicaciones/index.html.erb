@@ -21,7 +21,7 @@
   <div class="sidebar">
     <button class="toggle-btn">
      
-    <%= image_tag("menu-desplegable.png", alt: "Menú", title: "Menú", class: "img-menu") %>
+    <%= image_tag("tendencias.png", alt: "Menú", title: "Menú", class: "img-menu") %>
 
     </button>
 
@@ -182,7 +182,7 @@
 
 
           <% @publicaciones.each do |publicacion| %>
-            <div class="card my-1">
+            <div class="card my-0">
               
               
               <div class="card-body">
@@ -218,10 +218,10 @@
                     </div>
                   <% end %>
 
-                  <h2><%= publicacion.titulo %></h2>
+                  <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
                   <p class="comentarios">
-                    <strong>Comentarios: </strong>
-                    <span ><%= publicacion.comments.count %></span>
+                     
+                    <span >Comentarios: <%= publicacion.comments.count %></span>
                   </p>
 
                 <% end %>
