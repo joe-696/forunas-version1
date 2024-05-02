@@ -99,14 +99,13 @@
             <% @publicaciones_faculty.each do |publicacion| %>
 
               <% if publicacion.fijada %>
-                <h2 class="p_fijadas">Publicaciones Fijadas 📌</h2>
+                <h2 style="color: #FFFFFF;">Publicaciones Fijadas 📌</h2>
                 <%break%>
               <% end%>
 
             <%end%>
             <% @publicaciones_faculty.each do |publicacion| %>
               <% if publicacion.fijada %>
-
                 <div class="card my-4">
                   <div class="card-body">
                     <!-- Contenedor del nombre de usuario -->
@@ -141,16 +140,15 @@
             <% @publicaciones.each do |publicacion| %>
 
               <% if publicacion.fijadaindex %>
-                <h2>Publicaciones Fijadas 📌</h2>
+                <h2 style="color: #FFFFFF;">Publicaciones Fijadas 📌</h2>
                 <%break%>
               <% end%>
 
             <%end%>
             <% @publicaciones.each do |publicacion| %>
               <% if publicacion.fijadaindex %>
-              <div class="card my-4">
-                <div class="card-body">
-
+                <div class="card my-4">
+                  <div class="card-body">
                     <div class="publicacion">
                       <!-- Contenedor del nombre de usuario -->
                       <div class="usuario">
@@ -167,13 +165,18 @@
                         <% else %>
                           <div class="placeholder-image"></div>
                         <% end %>
+                        <% if publicacion.video.attached? %>
+                        <div class="embed-responsive embed-responsive-16by9">
+                          <%= video_tag publicacion.video, controls: true, class: "embed-responsive-item" %>
+                        </div>
+                      <% end %>
                         <h2><%= publicacion.titulo %></h2>
                       <% end %>
-
                       <p><strong>Comentarios: </strong><%= publicacion.comments.count %></p>
                       <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
                     </div>
                   </div>
+                </div>
               <% end %>
             <% end %>
           <%end%>
