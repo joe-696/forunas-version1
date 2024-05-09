@@ -15,6 +15,7 @@ amazon:
   bucket: <%= ENV["S3_BUCKET"] %>
 
 
+
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS
