@@ -210,10 +210,24 @@
                 <!-- Contenido de la publicación -->
                 <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
                 <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
+                  <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
                   <% if publicacion.imagen.attached? %>
                     <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
                   <% else %>
+                    
                     <div class="placeholder-image"></div>
+                      <p class="descripcion-publicacion" style="color: white;">
+                        <% truncated_description = truncate(publicacion.descripcion, length: 150) %>
+                        <% lines = truncated_description.lines.take(6) %>
+                        <%= simple_format(lines.join) %>
+                        <% if publicacion.descripcion.lines.count > 6 %>
+                          <%= link_to 'Leer más', '#', class: 'leer-mas' %>
+                        <% end %>
+                        <span class="descripcion-completa" style="display:none;">
+                          <%= simple_format(publicacion.descripcion) %>
+                          <%= link_to 'Leer menos', '#', class: 'leer-menos', style: 'display:none;' %>
+                        </span>
+                      </p>
                   <% end %>
                   <% if publicacion.video.attached? %>
                     <div class="embed-responsive embed-responsive-16by9">
@@ -221,7 +235,7 @@
                     </div>
                   <% end %>
 
-                  <strong><h3 style="color: white;"><%= publicacion.titulo %></h3></strong>
+                  
                   <p class="comentarios">
                      
                     <span >Comentarios: <%= publicacion.comments.count %></span>
@@ -299,8 +313,24 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
-<script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.leer-mas').click(function(e) {
+      e.preventDefault();
+      $(this).hide();
+      $(this).siblings('.descripcion-completa').show();
+      $(this).siblings('.leer-menos').show();
+    });
+
+    $('.leer-menos').click(function(e) {
+      e.preventDefault();
+      $(this).hide();
+      $(this).siblings('.descripcion-completa').hide();
+      $(this).siblings('.leer-mas').show();
+    });
+  });
   document.querySelector('.toggle-btn').addEventListener('click', function() {
     document.querySelector('.sidebar').classList.toggle('show');
   });
